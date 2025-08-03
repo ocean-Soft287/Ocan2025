@@ -1,0 +1,1 @@
+enum OrderType { salesInvoice, transfereInvoice, salesInvoiceWithoutTransfere }
