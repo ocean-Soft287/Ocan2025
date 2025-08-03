@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'package:theonemaintenancetechnician/Feature/Auth/presentation/view/widget/custom_text_field.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/get_product_color_model.dart';
-import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku.dart';
+import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku._or_barCode.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/search_result_model.dart';
 import 'package:theonemaintenancetechnician/Feature/home/presentation/cubit/home_cubit.dart';
 import 'package:theonemaintenancetechnician/Feature/home/presentation/cubit/home_state.dart';
+import 'package:theonemaintenancetechnician/Feature/home/presentation/view/screen/search_by_code.dart';
 import 'package:theonemaintenancetechnician/Feature/home/presentation/view/widget/plus_minus_values.dart';
 import 'package:theonemaintenancetechnician/core/Font/font.dart';
 import 'package:theonemaintenancetechnician/core/color/colors.dart';
@@ -70,26 +73,57 @@ class _SearchForInvoiceState extends State<SearchForInvoice> {
       body: Column(
         children: [
           SizedBox(height: 10.h),
-            SizedBox(
-            width: MediaQuery.sizeOf(context).width * .8,
-            child: CustomTextField(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: Row(
+                children: [
+                  SizedBox(
+                  width: MediaQuery.sizeOf(context).width * .8,
+                  child: CustomTextField(
 
-              textvaidation: '',
-              controller: _searchbySKUForProductController,
-              margin: EdgeInsets.symmetric(horizontal: 1.w),
-              onChanged: (text) {
+                    textvaidation: '',
+                    controller: _searchbySKUForProductController,
+                    margin: EdgeInsets.symmetric(horizontal: 1.w),
+                    onChanged: (text) {
 
-_debounceSearch((){
-  context.read<HomeCubit>().sarchProductBySKU(keyword: text);
+                  _debounceSearch((){
+                    context.read<HomeCubit>().sarchProductBySKU(keyword: text);
 
-});
-              },
-              onFieldSubmitted: (item){
+                  });
+                    },
+                    onFieldSubmitted: (item){
 
-              },
-              hintText: 'ادخل رقم المنتج ',
+                    },
+                    hintText: 'ادخل رقم المنتج ',
+                  ),
+                            ),
+                  Spacer(),
+                  IconButton(
+                    icon: const Icon(Icons.qr_code_scanner),
+                    onPressed: () async {
+                      String? barcode = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (
+                              context) => const SimpleBarcodeScannerPage(),
+                        ),
+                      );
+
+                      if (barcode != null && barcode != '-1' && barcode
+                          .trim()
+                          .isNotEmpty) {
+                        String trimmedBarcode = barcode.trim();
+
+                        context.read<HomeCubit>().searchProductByBarCode(
+                            keyword: trimmedBarcode);
+
+                        print('Gamal');
+                      }
+                    }
+                  ),
+                ],
+              ),
             ),
-          ),
 
 
 
@@ -97,7 +131,7 @@ _debounceSearch((){
 
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
-              if (state is SearchLoading ||state is SearchBySKUColorsizerLoading || state is SarchProductBySKULoading ||state is  SearchBySKUColorLoading) {
+              if (state is SearchLoading ||state is SearchBySKUColorsizerLoading || state is SearchProductBySKUOrByBarCodeLoading ||state is  SearchBySKUColorLoading) {
                 return const Center(child: CircularProgressIndicator());
               }
               else if (state is SearchError) {
@@ -105,7 +139,7 @@ _debounceSearch((){
               }
 
 
-    else if (state is SarchProductBySKUSucess) {
+    else if (state is SearchProductBySKUOrByBarCodeSucess) {
                 return sarchProductBySKU(state);
               }
 
@@ -265,12 +299,12 @@ _debounceSearch((){
 
             );
   }
-  Expanded sarchProductBySKU(SarchProductBySKUSucess state) {
+  Expanded sarchProductBySKU(SearchProductBySKUOrByBarCodeSucess state) {
     return Expanded(
               child:   state.data.isEmpty? Center(child: Text('لا يوجد منتجات'),):  ListView.builder(
                                   itemCount: state.data.length,
                                   itemBuilder: (context, index) {
-                                    SearchProductBySku product =
+                                    SearchProductBySkuORBarCode product =
                                         state.data[index];
                                     return
                                      Card(

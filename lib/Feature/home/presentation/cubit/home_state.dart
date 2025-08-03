@@ -1,7 +1,7 @@
 import 'package:theonemaintenancetechnician/Feature/home/data/models/employee_model.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/get_emp_inovice_model.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/get_product_color_model.dart';
-import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku.dart';
+import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku._or_barCode.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/search_result_model.dart';
 import '../../data/models/get_size_model.dart';
 
@@ -74,11 +74,12 @@ class SearchSuccess extends HomeState {
   SearchSuccess({required this.data});
 }
 
-class SarchProductBySKUSucess extends HomeState{
-  List<SearchProductBySku> data;
-  SarchProductBySKUSucess({required this.data});
+class SearchProductBySKUOrByBarCodeSucess extends HomeState{
+  List<SearchProductBySkuORBarCode> data;
+  SearchProductBySKUOrByBarCodeSucess({required this.data});
 }
-class SarchProductBySKULoading extends HomeState{}
+class SearchProductBySKUOrByBarCodeLoading extends HomeState{}
+
 
 class SearchBySKUColorSuccess extends HomeState{
   List<GetSizeModel> data;
@@ -106,6 +107,9 @@ class SearchBySKUColorsizeSuccess extends HomeState{
   SearchBySKUColorsizeSuccess({required this.data});
 }
 class SearchBySKUColorsizeLoading extends HomeState{}
+
+
+
 
 
 //{required String searchKey,required String color,required String size}

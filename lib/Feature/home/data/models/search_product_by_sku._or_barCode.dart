@@ -1,4 +1,4 @@
-class SearchProductBySku {
+class SearchProductBySkuORBarCode {
   int? totalResultCount;
   int? resultRowNumber;
   String? sku;
@@ -48,7 +48,7 @@ class SearchProductBySku {
   List<dynamic> itemPhotos;
   List<dynamic> itemColors;
 
-  SearchProductBySku({
+  SearchProductBySkuORBarCode({
     this.totalResultCount,
     this.resultRowNumber,
     this.sku,
@@ -99,8 +99,8 @@ class SearchProductBySku {
     required this.itemColors,
   });
 
-  factory SearchProductBySku.fromJson(Map<String, dynamic> json) {
-    return SearchProductBySku(
+  factory SearchProductBySkuORBarCode.fromJson(Map<String, dynamic> json) {
+    return SearchProductBySkuORBarCode(
       totalResultCount: json['TotalResultCount'] as int?,
       resultRowNumber: json['ResultRowNumber'] as int?,
       sku: json['SKU'] as String?,

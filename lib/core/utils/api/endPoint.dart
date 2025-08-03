@@ -27,6 +27,8 @@ class EndPoint {
  static String search ({required String searchKey})=> "$baseUrl/Product/SearchProducts?searchKey=$searchKey"; 
  ///بحث برثم الكمبيوتر
  static String sarchProductBySKU ({required String searchKey})=> '$baseUrl/Product/SearchProductBySKU?SKU=$searchKey';
+
+ static String sarchProductByBarcode ({required String searchKey})=> '$baseUrl/Product/SearchProductByBarcode?Barcode=$searchKey';
  ///بيرجع الالوان لرقم الكمبيوتر
  static String getProductColorsBySKU ({required String searchKey})=> '$baseUrl/Product/GetProductColorsBySKU?SKU=$searchKey';
  ///المقاسات لرقم كمبيوتر ولون

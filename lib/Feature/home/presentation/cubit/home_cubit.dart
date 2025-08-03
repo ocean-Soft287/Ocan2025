@@ -37,17 +37,33 @@ class HomeCubit extends Cubit<HomeState> {
 
   
   Future<void> sarchProductBySKU({required String keyword}) async {
-    emit(SarchProductBySKULoading());
+    emit(SearchProductBySKUOrByBarCodeLoading());
 
 
 
       homeRemoteDataSource.sarchProductBySKU(keyword: keyword).then((value) => value.fold((l) {
         Fluttertoast.showToast(msg: l.toString(),gravity:ToastGravity.CENTER);
   
-        emit(SearchError(message:  l)); }, (r) => emit(SarchProductBySKUSucess(data: r)))); 
+        emit(SearchError(message:  l)); }, (r) => emit(SearchProductBySKUOrByBarCodeSucess(data: r))));
   
 
   
+  }
+  Future<void> searchProductByBarCode({required String keyword}) async {
+    emit(SearchProductBySKUOrByBarCodeLoading());
+
+
+
+      homeRemoteDataSource.searchProductByBarCode(keyword: keyword).then((value) => value.fold((l) {
+
+        Fluttertoast.showToast(msg: l.toString(),gravity:ToastGravity.CENTER);
+
+        emit(SearchError(message:  l)); }, (r) =>
+
+          emit(SearchProductBySKUOrByBarCodeSucess(data: r))));
+
+
+
   }
    
    Future<void> getProductColorsBySKU({required String keyword}) async {

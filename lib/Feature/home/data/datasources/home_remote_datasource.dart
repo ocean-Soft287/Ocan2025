@@ -8,7 +8,7 @@ import 'package:theonemaintenancetechnician/Feature/home/data/models/add_employe
 import 'package:theonemaintenancetechnician/Feature/home/data/models/employee_model.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/get_emp_inovice_model.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/get_product_color_model.dart';
-import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku.dart';
+import 'package:theonemaintenancetechnician/Feature/home/data/models/search_product_by_sku._or_barCode.dart';
 import 'package:theonemaintenancetechnician/Feature/home/data/models/search_result_model.dart';
 import 'package:theonemaintenancetechnician/core/utils/api/api_consumer.dart';
 import 'package:theonemaintenancetechnician/core/utils/api/dio_consumer.dart';
@@ -215,7 +215,7 @@ bool isRealInt(String value) {
   }
 
   @override
-  Future<Either<String, List<SearchProductBySku>>> sarchProductBySKU({required String keyword})
+  Future<Either<String, List<SearchProductBySkuORBarCode>>> sarchProductBySKU({required String keyword})
   async{
   try{
       final res = await apiConsumer.get(
@@ -223,7 +223,26 @@ bool isRealInt(String value) {
       );
       final decryptedText = decrypt(res, privateKey, publicKey);
       final List<dynamic>  json = jsonDecode(decryptedText) ;
-     final data = json.map((e) => SearchProductBySku.fromJson(e)).toList();
+     final data = json.map((e) => SearchProductBySkuORBarCode.fromJson(e)).toList();
+      return Right(data);
+}
+   on DioException catch (e) {
+      return Left(e.message.toString());
+    } catch (e) {
+      return Left(e.toString());
+    }
+
+
+  }  @override
+  Future<Either<String, List<SearchProductBySkuORBarCode>>> searchProductByBarCode({required String keyword})
+  async{
+  try{
+      final res = await apiConsumer.get(
+        EndPoint.sarchProductByBarcode(searchKey: keyword),
+      );
+      final decryptedText = decrypt(res, privateKey, publicKey);
+      final List<dynamic>  json = jsonDecode(decryptedText) ;
+     final data = json.map((e) => SearchProductBySkuORBarCode.fromJson(e)).toList();
       return Right(data);
 }
    on DioException catch (e) {

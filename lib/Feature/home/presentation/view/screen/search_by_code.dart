@@ -70,7 +70,7 @@ class _SearchScreenState extends State<SearchScreen> {
               controller: _searchController,
               margin: EdgeInsets.symmetric(horizontal: 1.w),
               onChanged: (text) {
-                
+
 _debounceSearch((){
   context.read<HomeCubit>().search(keyword: text);
 
@@ -80,7 +80,7 @@ _debounceSearch((){
               hintText: 'البحث عن المنتج ',
             ),
           ),
-       
+
 
 
                SizedBox(height: 10.h),
@@ -101,8 +101,8 @@ _debounceSearch((){
 
             },
           ),
-     
-       
+
+
         ],
       ),
     );
@@ -145,14 +145,14 @@ _debounceSearch((){
                                                       fontWeight: FontWeight.bold,
                                                     ),
                                                   ),
-                                              
-                                           
+
+
                                             ),
-                                                               
+
                                             // SKU and Model No
                                             _buildRow("SKU", product.sku),
                                             _buildRow("Model", product.modelNo),
-                                                               
+
                                             // Category Info
                                             _buildRow(
                                               "Category",
@@ -162,13 +162,13 @@ _debounceSearch((){
                                               "Subcategory",
                                               "${product.subcategoryEnName} / ${product.subcategoryArName}",
                                             ),
-                                                               
+
                                             // Price
                                             _buildRow(
                                               "Price",
                                               "${product.price.toStringAsFixed(2)} EGP",
                                             ),
-                                                               
+
                                             // Variant Products
                                             if (product
                                                 .variantProducts
@@ -190,7 +190,7 @@ _debounceSearch((){
                                                       ),
                                                 ),
                                               ),
-                                                               
+
                                             // Loop over variants
                                             ...product.variantProducts.map(
                                               (variant) =>(variant.stockQuantity<=0) ?SizedBox() :Padding(
@@ -208,12 +208,12 @@ _debounceSearch((){
                                                   ProductItemCard(
                                                     variant: variant,
                                                     product: product,
-                                                    
+
                                                   ),
-                                              
+
                                                 ],
                                               ),
-                                           
+
                                                     _buildRow(
                                                       "Barcode",
                                                       variant.barCode,
@@ -241,18 +241,18 @@ _debounceSearch((){
                                                 ),
                                               ),
                                             ),
-                                                               
+
                                             const SizedBox(height: 8),
-                                       
+
                                           ],
                                         ),
                                                                            ),
                                      );
-                                 
+
                                   },
                                 ),
-                     
-            
+
+
             );
   }
 

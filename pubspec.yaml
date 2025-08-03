@@ -62,6 +62,7 @@ dependencies:
   easy_localization: ^3.0.7+1
   flutter_native_splash: ^2.4.6
   simple_barcode_scanner: ^0.3.0
+
   dio: ^5.8.0+1
 dev_dependencies:
   flutter_test:
